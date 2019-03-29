@@ -1,11 +1,15 @@
 import * as React from 'react';
 import Select from './Select';
 import Input from './Input';
+import Button from './Button';
 
 interface MyState {
   currencyList: Array<string>,
-  currencyArr: Object,
-  data: Array<{ currency: string, value: number }>
+  currencyRate: { [s: string]: number },
+  data: [
+    { currency: string, value: string },
+    { currency: string, value: string }
+  ]
 };
 
 class App extends React.Component<any, MyState> {
@@ -13,19 +17,19 @@ class App extends React.Component<any, MyState> {
     super(props);
     this.state = {
       currencyList: [],
-      currencyArr: {},
+      currencyRate: {},
       data: [
-        { currency: 'USD', value: 1 },
-        { currency: 'USD', value: 1 }
+        { currency: 'USD', value: '1' },
+        { currency: 'USD', value: '1' }
       ]
     };
   }
 
   async componentDidMount() {
     const rawCurrencyArr = await this.getCurrency('d5300451d2e82d6fecb8a504865962d5');
-    const currencyArr = this.getFormattedCurrency(rawCurrencyArr);
-    const currencyList = Object.keys(currencyArr);
-    this.setState({ currencyArr, currencyList });
+    const currencyRate = this.getFormattedCurrency(rawCurrencyArr);    
+    const currencyList = Object.keys(currencyRate);
+    this.setState({ currencyRate, currencyList });
   }
 
   async getCurrency(token: string) {
@@ -36,32 +40,48 @@ class App extends React.Component<any, MyState> {
   }
 
   getFormattedCurrency(arr: any) {
-    const currencyArr: any = { USD: 1 };
+    const currencyRate: any = { USD: 1 };
     const arrKeys: any = Object.keys(arr);
     for (const el of arrKeys) {
-      currencyArr[el.slice(3)] = arr[el];
+      currencyRate[el.slice(3)] = arr[el];
     }
-    return currencyArr;
+    return currencyRate;
   }
 
-  onSelectChange = (currency: string, id: number) => {
+  setCurrency = (id: number, currency: string) => {
     const data = [...this.state.data];
+    data[id] = { ...data[id]};
     data[id].currency = currency;
-    this.setState({ data });
+    this.setState({ data: [data[0], data[1]] });
   }
 
-  onInputChange = (val: number, id: number) => {
-    console.log(val, id);
+  setValues = (id: number, value: string) => {
+    const data = [...this.state.data];
+    data[id] = { ...data[id] };
+    data[id].value = value;
+    this.setState({ data: [data[0], data[1]] });
+  }
+
+  recountRate = () => {
+    const fromCurrency = this.state.data[0].currency;
+    const toCurrency = this.state.data[1].currency;
+    const rate = this.state.currencyRate[toCurrency] / this.state.currencyRate[fromCurrency];
+    const data = [...this.state.data];
+    data[1] = { ...data[1] };
+    const parsedValue = parseFloat(data[0].value);
+    data[1].value = (parsedValue * rate).toFixed(2);
+    this.setState({ data: [data[0], data[1]] });
   }
 
   render() {
     const { currencyList } = this.state;
     return (
       <React.Fragment>
-        <Select options={currencyList} id={0} onSelectChange={this.onSelectChange} />
-        <Input id={0} onInputChange={this.onInputChange} />
-        <Select options={currencyList} id={1} onSelectChange={this.onSelectChange} />
-        <Input id={1} onInputChange={this.onInputChange} />
+        <Select options={currencyList} id={0} onSelectChange={this.setCurrency} />
+        <Input id={0} value={this.state.data[0].value} onInputChange={this.setValues} />
+        <Select options={currencyList} id={1} onSelectChange={this.setCurrency} />
+        <Input id={1} value={this.state.data[1].value} onInputChange={this.setValues} />
+        <Button onButtonClick={this.recountRate}/>
       </React.Fragment>
     );
   }

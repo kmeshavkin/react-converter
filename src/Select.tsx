@@ -1,16 +1,16 @@
 import * as React from 'react';
 
-interface MyProps {
+interface SelectProps {
   options: Array<any>,
   id: number,
-  onSelectChange: (currency: string, type: number) => void
+  onSelectChange: (id: number, currency: string) => void
 }
 
-const Select = (props: MyProps) => {
+const Select = (props: SelectProps) => {
   const { options } = props;
   const optionsDisplay: Array<any> = options && options.map(el => <option key={el}>{el}</option>);
   return (
-    <select onChange={(e) => props.onSelectChange(e.target.value, props.id)}>
+    <select onChange={(e) => props.onSelectChange(props.id, e.target.value)}>
       {optionsDisplay}
     </select>
   );

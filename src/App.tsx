@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Select from './Select';
-import Input from './Input';
-import Button from './Button';
+import Select from './Select/Select';
+import Input from './Input/Input';
+import Button from './Button/Button';
 import './App.css';
 
 interface MyState {

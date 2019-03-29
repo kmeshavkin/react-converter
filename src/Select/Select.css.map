@@ -3,7 +3,7 @@
     "mappings": "AAEA,AAAA,KAAK,CAAC;EACJ,MAAM,ECHI,GAAG;EDIb,OAAO,ECJG,GAAG;EDKb,SAAS,ECFC,IAAI;CDGf",
     "sources": [
         "Select.scss",
-        "variables.scss"
+        "utils/variables.scss"
     ],
     "names": [],
     "file": "Select.css"

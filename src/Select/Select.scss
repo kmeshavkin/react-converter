@@ -1,6 +1,6 @@
-@import './variables';
+@import './utils/variables';
 
-select {
+input {
   margin: $gap_small;
   padding: $gap_small;
   font-size: $font_size;

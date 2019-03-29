@@ -2,9 +2,10 @@ import * as React from 'react';
 import Select from './Select';
 import Input from './Input';
 
-type MyState = {
+interface MyState {
   currencyList: Array<string>,
-  currencyArr: Object
+  currencyArr: Object,
+  data: Array<{ currency: string, value: number }>
 };
 
 class App extends React.Component<any, MyState> {
@@ -12,7 +13,11 @@ class App extends React.Component<any, MyState> {
     super(props);
     this.state = {
       currencyList: [],
-      currencyArr: {}
+      currencyArr: {},
+      data: [
+        { currency: 'USD', value: 1 },
+        { currency: 'USD', value: 1 }
+      ]
     };
   }
 
@@ -39,14 +44,24 @@ class App extends React.Component<any, MyState> {
     return currencyArr;
   }
 
+  onSelectChange = (currency: string, id: number) => {
+    const data = [...this.state.data];
+    data[id].currency = currency;
+    this.setState({ data });
+  }
+
+  onInputChange = (val: number, id: number) => {
+    console.log(val, id);
+  }
+
   render() {
     const { currencyList } = this.state;
     return (
       <React.Fragment>
-        <Select options={currencyList} />
-        <Select options={currencyList} />
-        <Input />
-        <Input />
+        <Select options={currencyList} id={0} onSelectChange={this.onSelectChange} />
+        <Input id={0} onInputChange={this.onInputChange} />
+        <Select options={currencyList} id={1} onSelectChange={this.onSelectChange} />
+        <Input id={1} onInputChange={this.onInputChange} />
       </React.Fragment>
     );
   }

@@ -1,8 +1,13 @@
 import React from 'react';
 
-const Input = () => {
+interface Props {
+  id: number,
+  onInputChange: (value: number, type: number) => void
+}
+
+const Input = (props: Props) => {
   return (
-    <input />
+    <input onChange={(e) => props.onInputChange(parseInt(e.target.value), props.id)}/>
   );
 }
  

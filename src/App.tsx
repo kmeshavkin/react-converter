@@ -40,7 +40,7 @@ class App extends React.Component<any, MyState> {
       .catch(error => console.log(error));
   }
 
-  getFormattedCurrency(arr: any) {
+  getFormattedCurrency(arr: any): {} {
     const currencyRate: any = { USD: 1 };
     const arrKeys: any = Object.keys(arr);
     for (const el of arrKeys) {
@@ -49,21 +49,21 @@ class App extends React.Component<any, MyState> {
     return currencyRate;
   }
 
-  setCurrency = (id: number, currency: string) => {
+  setCurrency = (id: number, currency: string): void => {
     const data = [...this.state.data];
     data[id] = { ...data[id]};
     data[id].currency = currency;
     this.setState({ data: [data[0], data[1]] });
   }
 
-  setValues = (id: number, value: string) => {
+  setValues = (id: number, value: string): void => {
     const data = [...this.state.data];
     data[id] = { ...data[id] };
     data[id].value = value;
     this.setState({ data: [data[0], data[1]] });
   }
 
-  recountRate = () => {
+  recountRate = (): void => {
     const fromCurrency = this.state.data[0].currency;
     const toCurrency = this.state.data[1].currency;
     const rate = this.state.currencyRate[toCurrency] / this.state.currencyRate[fromCurrency];

@@ -2,6 +2,7 @@ import * as React from 'react';
 import Select from './Select';
 import Input from './Input';
 import Button from './Button';
+import './App.css';
 
 interface MyState {
   currencyList: Array<string>,
@@ -77,10 +78,16 @@ class App extends React.Component<any, MyState> {
     const { currencyList } = this.state;
     return (
       <React.Fragment>
-        <Select options={currencyList} id={0} onSelectChange={this.setCurrency} />
-        <Input id={0} value={this.state.data[0].value} onInputChange={this.setValues} />
-        <Select options={currencyList} id={1} onSelectChange={this.setCurrency} />
-        <Input id={1} value={this.state.data[1].value} onInputChange={this.setValues} />
+        <div className="container">
+          <div className="from">
+            <Select options={currencyList} id={0} onSelectChange={this.setCurrency} />
+            <Input id={0} value={this.state.data[0].value} onInputChange={this.setValues} />
+          </div>
+          <div className="to">
+            <Select options={currencyList} id={1} onSelectChange={this.setCurrency} />
+            <Input id={1} value={this.state.data[1].value} onInputChange={this.setValues} />
+          </div>
+        </div>
         <Button onButtonClick={this.recountRate}/>
       </React.Fragment>
     );

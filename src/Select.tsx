@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './Select.css';
 
 interface SelectProps {
   options: Array<any>,

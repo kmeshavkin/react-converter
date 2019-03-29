@@ -1,0 +1,21 @@
+@import './variables';
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column wrap;
+}
+
+div.container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+
+  > div {
+    display: flex;
+    flex-flow: column;
+    padding: $gap_large;
+  }
+}

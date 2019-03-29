@@ -9,5 +9,4 @@ To demonstrate following:
 * Usage of Typescript with React
 
 ## TO-DO
-* Style it
-* Compile it
+* Testing

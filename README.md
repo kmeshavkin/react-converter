@@ -7,6 +7,4 @@ To demonstrate following:
 * Usage of fetch with async/await
 * Usage of React
 * Usage of Typescript with React
-
-## TO-DO
-* Testing
+* Also testing with Jest, but very minimal

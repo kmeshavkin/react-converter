@@ -27,7 +27,8 @@ class App extends React.Component<any, MyState> {
   }
 
   async componentDidMount() {
-    const rawCurrencyArr = await this.getCurrency('d5300451d2e82d6fecb8a504865962d5');
+    const rawCurrencyArr = await this.getCurrency('here was my old key, provide your own here');
+    if (rawCurrencyArr == null) throw new Error('Currency rates were not fetched correctly from apilayer.net.\r\nCheck your connection, website availability and your token');
     const currencyRate = this.getFormattedCurrency(rawCurrencyArr);    
     const currencyList = Object.keys(currencyRate);
     this.setState({ currencyRate, currencyList });
@@ -49,28 +50,19 @@ class App extends React.Component<any, MyState> {
     return currencyRate;
   }
 
-  setCurrency = (id: number, currency: string): void => {
-    const data = [...this.state.data];
-    data[id] = { ...data[id]};
-    data[id].currency = currency;
-    this.setState({ data: [data[0], data[1]] });
-  }
-
-  setValues = (id: number, value: string): void => {
-    const data = [...this.state.data];
-    data[id] = { ...data[id] };
-    data[id].value = value;
-    this.setState({ data: [data[0], data[1]] });
-  }
-
   recountRate = (): void => {
     const fromCurrency = this.state.data[0].currency;
     const toCurrency = this.state.data[1].currency;
     const rate = this.state.currencyRate[toCurrency] / this.state.currencyRate[fromCurrency];
+    const parsedValue = parseFloat(this.state.data[0].value);
+    this.setStateData(1, undefined, (parsedValue * rate).toFixed(2));
+  }
+
+  setStateData = (id: number, currency: string | undefined, value: string | undefined): void => {
     const data = [...this.state.data];
-    data[1] = { ...data[1] };
-    const parsedValue = parseFloat(data[0].value);
-    data[1].value = (parsedValue * rate).toFixed(2);
+    data[id] = { ...data[id] };
+    if (typeof value != 'undefined') data[id].value = value;
+    if (typeof currency != 'undefined') data[id].currency = currency;
     this.setState({ data: [data[0], data[1]] });
   }
 
@@ -80,12 +72,12 @@ class App extends React.Component<any, MyState> {
       <React.Fragment>
         <div className="container">
           <div className="from">
-            <Select options={currencyList} id={0} onSelectChange={this.setCurrency} />
-            <Input id={0} value={this.state.data[0].value} onInputChange={this.setValues} />
+            <Select options={currencyList} id={0} onChange={this.setStateData} />
+            <Input id={0} value={this.state.data[0].value} onChange={this.setStateData} />
           </div>
           <div className="to">
-            <Select options={currencyList} id={1} onSelectChange={this.setCurrency} />
-            <Input id={1} value={this.state.data[1].value} onInputChange={this.setValues} />
+            <Select options={currencyList} id={1} onChange={this.setStateData} />
+            <Input id={1} value={this.state.data[1].value} onChange={this.setStateData} />
           </div>
         </div>
         <Button onButtonClick={this.recountRate}/>

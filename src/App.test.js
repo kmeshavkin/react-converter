@@ -17,7 +17,7 @@ describe('App', () => {
   })
 
   it('converts raw currency arr to usable', () => {
-    let retValue = component.getFormattedCurrency({ USDAAA: 3, USDBBB: 2 });
+    const retValue = component.getFormattedCurrency({ USDAAA: 3, USDBBB: 2 });
     expect(retValue).toMatchObject({ USD: 1, AAA: 3, BBB: 2 });
   });
 });

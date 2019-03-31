@@ -4,14 +4,14 @@ import './Select.css';
 interface SelectProps {
   options: Array<any>,
   id: number,
-  onSelectChange: (id: number, currency: string) => void
+  onChange: (id: number, currency: string, value: undefined) => void
 }
 
 const Select = (props: SelectProps) => {
   const { options } = props;
   const optionsDisplay: Array<any> = options && options.map(el => <option key={el}>{el}</option>);
   return (
-    <select onChange={(e) => props.onSelectChange(props.id, e.target.value)}>
+    <select onChange={(e) => props.onChange(props.id, e.target.value, undefined)}>
       {optionsDisplay}
     </select>
   );
